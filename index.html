@@ -64,7 +64,7 @@ h2{margin:0 0 10px;font:700 21px/1.2 var(--display);color:var(--acc)}
 .grid{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .row{display:grid;gap:0;border-top:1px solid var(--line)}
 .row:first-child{border-top:0}
-.g1 .row{grid-template-columns:48px minmax(0,1fr) minmax(0,1.55fr) 124px 172px minmax(0,1.15fr)}
+.g1 .row{grid-template-columns:48px minmax(0,1.05fr) minmax(0,1.7fr) 132px minmax(0,1.25fr)}
 .g2 .row{grid-template-columns:48px 96px minmax(0,1.5fr) minmax(0,1.3fr)}
 .row>div{padding:9px 11px;border-left:1px solid var(--line);min-width:0;font-size:14px}
 .row>div:first-child{border-left:0}
@@ -74,13 +74,13 @@ h2{margin:0 0 10px;font:700 21px/1.2 var(--display);color:var(--acc)}
 .c{text-align:center}
 .row select,.row textarea{width:100%;font:14px/1.4 var(--body);color:var(--fg);background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 8px}
 .row textarea{resize:none;overflow:hidden;min-height:34px;display:block}
-select[data-v="Sim"],select[data-v="Conforme"]{background:var(--ok-bg);border-color:#b5d6c2}
-select[data-v="Não"],select[data-v="Não Conforme"]{background:var(--err-bg);border-color:#efb8b1}
+select[data-v="Sim"]{background:var(--ok-bg);border-color:#b5d6c2}
+select[data-v="Não"]{background:var(--err-bg);border-color:#efb8b1}
 select[data-v="Ajustar"]{background:var(--warn-bg);border-color:#e6cf93}
 select:disabled,textarea:disabled,.ap input:disabled{opacity:1;color:var(--fg);-webkit-text-fill-color:var(--fg);cursor:default}
 textarea:disabled,.ap input[type=text]:disabled,.ap input[type=date]:disabled{background:transparent;border-color:transparent;padding-left:0}
 select:disabled{appearance:none;-webkit-appearance:none;text-align:center;font-weight:600}
-select:disabled:not([data-v="Sim"]):not([data-v="Não"]):not([data-v="Ajustar"]):not([data-v="Conforme"]):not([data-v="Não Conforme"]){background:transparent;border-color:transparent;color:var(--muted);-webkit-text-fill-color:var(--muted);font-weight:400}
+select:disabled:not([data-v="Sim"]):not([data-v="Não"]):not([data-v="Ajustar"]){background:transparent;border-color:transparent;color:var(--muted);-webkit-text-fill-color:var(--muted);font-weight:400}
 
 .ap{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
 .ap p{margin:0 0 12px;max-width:100ch}
@@ -98,11 +98,11 @@ footer button{background:none;border:0;padding:0;font:inherit;color:var(--acc);t
   .row.hd{display:none}
   .g1 .row,.g2 .row{grid-template-columns:44px minmax(0,1fr)}
   .row>div{border-left:0;padding:5px 12px}
-  .row>div.n{grid-row:1 / span 6;border-right:1px solid var(--line);padding-top:10px}
+  .row>div.n{grid-row:1 / span 5;border-right:1px solid var(--line);padding-top:10px}
   .row>div:nth-child(2){padding-top:10px;font-weight:600}
   .row>div:last-child{padding-bottom:11px}
   .row>div[data-l]::before{content:attr(data-l);display:block;font-size:11px;font-weight:700;color:var(--acc);margin-bottom:2px}
-  .c{text-align:left}.c select{max-width:200px}
+  .c{text-align:left}.c select{max-width:180px}
   .sig{grid-template-columns:1fr;gap:46px}
 }
 @media print{
@@ -227,7 +227,7 @@ function normalize(d){
   var o=blank();
   if(!d||typeof d!=="object")return o;
   o.updated=String(d.updated||"");o.by=String(d.by||"");
-  SOLIC.forEach(function(s){var x=d.solic&&d.solic[s[0]];if(x)o.solic[s[0]]={c:String(x.c||""),o:String(x.o||""),f:(x.f==="Conforme"||x.f==="Não Conforme")?x.f:""}});
+  SOLIC.forEach(function(s){var x=d.solic&&d.solic[s[0]];if(x)o.solic[s[0]]={c:String(x.c||""),o:String(x.o||"")}});
   PTS.forEach(function(p){var x=d.pts&&d.pts[p[0]];if(x)o.pts[p[0]]=String(x)});
   if(d.aprov){o.aprov.status=String(d.aprov.status||"");o.aprov.data=String(d.aprov.data||"");o.aprov.nome=String(d.aprov.nome||"")}
   return o;
@@ -252,18 +252,17 @@ function build(){
    +'<div id="msg" role="status" aria-live="polite" hidden></div><div id="panel"></div>'
    +'<section class="blk txt"><h2>Objetivo</h2>'
    +'<p>Este documento pede a confirmação do cliente de que as 4 solicitações abaixo são exatamente o que deve ser desenvolvido no projeto "Centro de Custo". O desenvolvimento só começa após o aceite.</p>'
-   +'<p><b>Como responder:</b></p><ol><li>Na tabela de solicitações, marque cada item como <b>Sim</b>, <b>Não</b> ou <b>Ajustar</b> e descreva o ajuste na coluna de observação. Na coluna <b>Conformidade</b>, indique <b>Conforme</b> ou <b>Não Conforme</b>.</li><li>Responda os pontos em aberto, que hoje impedem fechar o escopo.</li><li>Preencha o aceite no final e clique em <b>Salvar</b>.</li></ol></section>'
+   +'<p><b>Como responder:</b></p><ol><li>Na tabela de solicitações, marque cada item como <b>Sim</b>, <b>Não</b> ou <b>Ajustar</b> e descreva o ajuste na coluna de observação.</li><li>Responda os pontos em aberto, que hoje impedem fechar o escopo.</li><li>Preencha o aceite no final e clique em <b>Salvar</b>.</li></ol></section>'
    +'<section class="blk txt"><h2>Entendimento do projeto</h2>'
    +'<p>Os novos centros de custo entram no sistema por importação de uma planilha Excel para a tabela CTT de todas as empresas, já que a CTT não é compartilhada entre elas. O usuário poderá compartilhar centros de custo entre empresas, decidindo o que compartilhar e fazendo o mapeamento.</p>'
    +'<p>Na folha de pagamento, a tabela de classe de valor será habilitada para cadastrar o serviço prestado do centro de custo. A transferência de centro de custo do funcionário será feita por rotina, se já existir rotina automática, ou manualmente, para manter o histórico.</p>'
    +'<p><b>Base:</b> planilha Excel com os novos centros de custo, a ser importada para a tabela CTT (item 1).</p></section>';
 
   h+='<section class="blk"><h2>Solicitações a validar</h2><div class="sum" id="sum1"></div><div class="grid g1">'
-   +'<div class="row hd"><div class="n">Nº</div><div>Solicitação</div><div>Atividade</div><div class="c">Confere?</div><div class="c">Conformidade</div><div>Observação do cliente</div></div>';
+   +'<div class="row hd"><div class="n">Nº</div><div>Solicitação</div><div>Atividade</div><div class="c">Confere?</div><div>Observação do cliente</div></div>';
   SOLIC.forEach(function(s){
     h+='<div class="row"><div class="n">'+s[0]+'</div><div>'+esc(s[1])+'</div><div data-l="Atividade">'+esc(s[2])+'</div>'
      +'<div class="c" data-l="Confere?"><select data-k="c:'+s[0]+'" aria-label="Item '+s[0]+': confere?"><option value="">—</option><option>Sim</option><option>Não</option><option>Ajustar</option></select></div>'
-     +'<div class="c" data-l="Conformidade"><select data-k="f:'+s[0]+'" aria-label="Item '+s[0]+': conformidade"><option value="">—</option><option>Conforme</option><option>Não Conforme</option></select></div>'
      +'<div data-l="Observação do cliente"><textarea rows="1" data-k="o:'+s[0]+'" aria-label="Item '+s[0]+': observação do cliente"></textarea></div></div>';
   });
   h+='</div></section>';
@@ -292,7 +291,6 @@ function apply(){
     var k=el.getAttribute("data-k").split(":"), id=k[1], s;
     if(k[0]==="c"){s=data.solic[id];el.value=s?s.c:"";el.setAttribute("data-v",el.value)}
     else if(k[0]==="o"){s=data.solic[id];el.value=s?s.o:""}
-    else if(k[0]==="f"){s=data.solic[id];el.value=s?(s.f||""):"";el.setAttribute("data-v",el.value)}
     else if(k[0]==="r"){el.value=data.pts[id]||""}
     else if(k[0]==="ap"){el.checked=data.aprov.status===el.value}
     else if(k[0]==="apn"){el.value=data.aprov.nome}
@@ -306,8 +304,7 @@ function apply(){
 function sums(){
   var a=SOLIC.filter(function(s){return data.solic[s[0]]&&data.solic[s[0]].c}).length;
   var b=PTS.filter(function(p){return(data.pts[p[0]]||"").trim()}).length;
-  var f=SOLIC.filter(function(s){return data.solic[s[0]]&&data.solic[s[0]].f}).length;
-  $("sum1").innerHTML="<b>"+a+" de "+SOLIC.length+"</b> solicitações respondidas · <b>"+f+" de "+SOLIC.length+"</b> com conformidade informada";
+  $("sum1").innerHTML="<b>"+a+" de "+SOLIC.length+"</b> solicitações respondidas";
   $("sum2").innerHTML="<b>"+b+" de "+PTS.length+"</b> pontos respondidos";
 }
 function bar(){
@@ -437,11 +434,9 @@ document.addEventListener("submit",function(ev){
 function onField(ev){
   var el=ev.target, k=el.getAttribute&&el.getAttribute("data-k");if(!k||!token)return;
   k=k.split(":");var id=k[1];
-  if(k[0]==="c"||k[0]==="o"||k[0]==="f"){
-    var s=data.solic[id]||(data.solic[id]={c:"",o:"",f:""});
-    if(k[0]==="c"){s.c=el.value;el.setAttribute("data-v",el.value)}
-    else if(k[0]==="f"){s.f=el.value;el.setAttribute("data-v",el.value)}
-    else s.o=el.value;
+  if(k[0]==="c"||k[0]==="o"){
+    var s=data.solic[id]||(data.solic[id]={c:"",o:""});
+    if(k[0]==="c"){s.c=el.value;el.setAttribute("data-v",el.value)}else s.o=el.value;
   }
   else if(k[0]==="r")data.pts[id]=el.value;
   else if(k[0]==="ap"){if(el.checked)data.aprov.status=el.value}
